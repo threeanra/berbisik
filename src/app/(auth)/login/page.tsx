@@ -1,4 +1,6 @@
 "use client";
+import { useUser } from "@/app/hooks/useUser";
+import { createClient } from "@/app/utils/supabase/client";
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +9,21 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function Login() {
+  const { user } = useUser();
   const router = useRouter();
+
+  if (user) router.push("/");
+
+  const handleLogin = async () => {
+    const supabase = await createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth-core/callback`,
+      },
+    });
+  };
+
   return (
     <Container>
       <div className="h-screen flex items-center justify-center">
@@ -20,7 +36,7 @@ export default function Login() {
                 </span>
               </Link>
             </CardTitle>
-            <Button>Masuk dengan akun Google</Button>
+            <Button onClick={handleLogin}>Masuk dengan akun Google</Button>
             <Button
               onClick={() => {
                 router.push("/");
