@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="absolute bottom-0 left-0 right-0 px-5 md:px-56 flex items-center justify-center p-5">
+    <footer className="lg:absolute bottom-0 left-0 right-0 px-5 md:px-56 flex items-center justify-center p-4">
       <div className="text-sm md:text-base font-light flex flex-col justify-center items-center gap-1">
         <span>2025 © berbisik all rights reserved</span>
         <span>
@@ -13,6 +13,6 @@ export default function Footer() {
           </Link>
         </span>
       </div>
-    </div>
+    </footer>
   );
 }
