@@ -1,27 +1,16 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/app/utils/supabase/client";
-import { Loader2 } from "lucide-react";
-import { useUser } from "@/app/hooks/useUser";
+import { createClient } from "@/app/utils/supabase/server";
+import { handleLogout } from "@/lib/actions";
+import ButtonLogin from "./ButtonLogin";
 
-export default function Navbar() {
-  const { user, setUser } = useUser();
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+export default async function Navbar() {
+  const supabase = await createClient();
 
-  const handleLogout = async () => {
-    setLoading(true);
-    setTimeout(async () => {
-      const supabase = await createClient();
-      await supabase.auth.signOut();
-      setUser(null);
-      setLoading(false);
-      router.push("/");
-    }, 1500);
-  };
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="absolute top-0 left-0 right-0">
@@ -33,22 +22,19 @@ export default function Navbar() {
         </Link>
 
         {user ? (
-          <Button
-            className="bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300"
-            onClick={handleLogout}
-            disabled={loading} // Disable button during loading
-          >
-            {loading && <Loader2 className="animate-spin" />}
-            {loading ? "Keluar" : "Keluar"}
-          </Button>
+          <form action={handleLogout}>
+            <Button
+              className="bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300"
+
+              // disabled={loading} // Disable button during loading
+            >
+              {/* {loading && <Loader2 className="animate-spin" />}
+          {loading ? "Keluar" : "Keluar"} */}
+              Keluar
+            </Button>
+          </form>
         ) : (
-          <Button
-            onClick={() => {
-              router.push("/login");
-            }}
-          >
-            Masuk
-          </Button>
+          <ButtonLogin />
         )}
       </div>
     </div>
