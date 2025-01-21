@@ -8,7 +8,7 @@ export const formSchema = z.object({
       message: "Isi pesanmu terlebih dahulu.",
     })
     .max(200, {
-      message: "Pesan maksimal 100 karakter.",
+      message: "Pesan maksimal 200 karakter.",
     }),
 });
 

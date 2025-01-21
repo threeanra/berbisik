@@ -27,7 +27,7 @@ export default function Login() {
 
   return (
     <Container>
-      <div className="h-screen flex items-center justify-center">
+      <section className="h-screen flex items-center justify-center">
         <Card className="w-[400px]">
           <CardHeader className="flex gap-2">
             <CardTitle className="text-center text-3xl mt-5 mb-3">
@@ -54,7 +54,7 @@ export default function Login() {
             </span>
           </CardHeader>
         </Card>
-      </div>
+      </section>
     </Container>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Container from "@/components/Container";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import MessageCard from "@/components/MessageCard";
 import { useRouter } from "next/navigation";
@@ -10,7 +9,7 @@ export default function Hero() {
   const router = useRouter();
   return (
     <Container>
-      <div className="lg:h-screen mt-48 md:mt-30 lg:mt-7 2xl:mt-0 flex items-center justify-center flex-col gap-5 text-center">
+      <section className="lg:h-screen mt-48 md:mt-30 lg:mt-7 2xl:mt-0 flex items-center justify-center flex-col gap-5 text-center">
         <h1 className="text-3xl md:text-5xl 2xl:text-6xl font-light text-center">
           Ruang hening tempat aksara ber
           <span className="font-bold">bisik</span>
@@ -47,8 +46,7 @@ export default function Hero() {
           <NotebookText />
           Lihat Pesan Lainnya
         </Button>
-      </div>
-      <Footer isAbsolute={true} />
+      </section>
     </Container>
   );
 }

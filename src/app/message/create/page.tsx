@@ -22,7 +22,7 @@ export default async function Message() {
   return (
     <Container>
       <Navbar />
-      <div className="2xl:h-screen mt-32 md:mt-30 2xl:mt-0 mb-10 md:mb-0 flex justify-center items-center flex-col gap-4">
+      <section className="2xl:h-screen mt-32 md:mt-30 2xl:mt-0 mb-10 md:mb-0 flex justify-center items-center flex-col gap-4">
         <div className="w-full md:w-[600px]">
           <ButtonBack customClassname="self-start" />
         </div>
@@ -37,7 +37,7 @@ export default async function Message() {
             </CardContent>
           </CardHeader>
         </Card>
-      </div>
+      </section>
       <Footer customClass="2xl:absolute bottom-0 left-0 right-0" />
     </Container>
   );
