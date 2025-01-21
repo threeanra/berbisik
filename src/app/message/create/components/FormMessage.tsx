@@ -22,12 +22,19 @@ export default function FormMessages() {
   const CHARACTER_LIMIT = 200;
   const form = useForm<FormMessagesSchema>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      message: "",
+    },
   });
 
-  const { handleSubmit, control } = form;
+  const { handleSubmit, control, reset } = form;
 
   const onSubmit = (values: FormMessagesSchema) => {
     console.log(values);
+    reset();
+    form.setValue("name", "");
+    form.setValue("message", "");
   };
 
   return (
@@ -75,7 +82,7 @@ export default function FormMessages() {
             <Info className="h-4 w-4" />
             <AlertTitle>Catatan</AlertTitle>
             <AlertDescription>
-              Gunakanlah dengan bijak tanpa ada unsur menghina, sara, maupun hal
+              Gunakanlah dengan bijak tanpa unsur menghina, sara, maupun hal
               yang merugikan orang lain.
             </AlertDescription>
           </Alert>

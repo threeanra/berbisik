@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
   const { user } = useUser();
@@ -36,7 +37,10 @@ export default function Login() {
                 </span>
               </Link>
             </CardTitle>
-            <Button onClick={handleLogin}>Masuk dengan akun Google</Button>
+            <Button onClick={handleLogin}>
+              <FaGoogle />
+              Masuk dengan Google
+            </Button>
             <Button
               onClick={() => {
                 router.push("/");

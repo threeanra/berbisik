@@ -5,11 +5,12 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import MessageCard from "@/components/MessageCard";
 import { useRouter } from "next/navigation";
+import { NotebookText, Pencil, UserSearch } from "lucide-react";
 export default function Hero() {
   const router = useRouter();
   return (
     <Container>
-      <div className="lg:h-screen mt-48 md:mt-30 lg:mt-0 flex items-center justify-center flex-col gap-5 text-center">
+      <div className="lg:h-screen mt-48 md:mt-30 lg:mt-7 2xl:mt-0 flex items-center justify-center flex-col gap-5 text-center">
         <h1 className="text-3xl md:text-5xl 2xl:text-6xl font-light text-center">
           Ruang hening tempat aksara ber
           <span className="font-bold">bisik</span>
@@ -29,10 +30,11 @@ export default function Hero() {
               router.push("/message/create");
             }}
           >
+            <Pencil />
             Tulis pesanmu
           </Button>
           <Button className="bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300">
-            Pesan orang lain
+            <UserSearch /> Pesan orang lain
           </Button>
         </div>
 
@@ -42,10 +44,11 @@ export default function Hero() {
           <MessageCard />
         </div>
         <Button variant={"outline"} className="my-2">
+          <NotebookText />
           Lihat Pesan Lainnya
         </Button>
       </div>
-      <Footer />
+      <Footer isAbsolute={true} />
     </Container>
   );
 }

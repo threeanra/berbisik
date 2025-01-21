@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const formSchema = z.object({
-  name: z.string().optional(),
+  name: z.string().optional().default(""),
   message: z
     .string()
     .min(1, {
