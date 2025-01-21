@@ -22,13 +22,13 @@ export default async function Message() {
   return (
     <Container>
       <Navbar />
-      <div className="lg:h-screen mt-32 mb-10 flex justify-center items-center flex-col gap-4">
+      <div className="lg:h-screen mt-32 md:mt-30 lg:mt-0 mb-10 md:mb-0 flex justify-center items-center flex-col gap-4">
         <div className="w-full md:w-[600px]">
           <ButtonBack customClassname="self-start" />
         </div>
         <Card className="w-full md:w-[600px]">
           <CardHeader className="flex gap-2">
-            <CardDescription className="text-base self-end">
+            <CardDescription className="text-sm self-end">
               Halo,{" "}
               <span className="italic">{user?.user_metadata.full_name}</span>
             </CardDescription>

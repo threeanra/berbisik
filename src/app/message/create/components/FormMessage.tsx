@@ -66,18 +66,21 @@ export default function FormMessages() {
               <span className="absolute bottom-2 right-4 text-sm text-gray-500">
                 {CHARACTER_LIMIT - (field.value?.length ?? 0)}
               </span>
-              <FormMessage />
+              <FormMessage className="absolute" />
             </FormItem>
           )}
         />
-        <Alert>
-          <Info className="h-4 w-4" />
-          <AlertTitle>Catatan</AlertTitle>
-          <AlertDescription>
-            Gunakanlah dengan bijak tanpa ada unsur menghina, sara, maupun hal
-            yang merugikan orang lain. 
-          </AlertDescription>
-        </Alert>
+        <div className="pt-5">
+          <Alert>
+            <Info className="h-4 w-4" />
+            <AlertTitle>Catatan</AlertTitle>
+            <AlertDescription>
+              Gunakanlah dengan bijak tanpa ada unsur menghina, sara, maupun hal
+              yang merugikan orang lain.
+            </AlertDescription>
+          </Alert>
+        </div>
+
         <Button type="submit">
           <Send />
           Kirim
