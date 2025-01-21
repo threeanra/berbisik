@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@/app/utils/supabase/server";
 import { handleLogout } from "@/lib/actions";
 import ButtonLogin from "./ButtonLogin";
+import { LogOut } from "lucide-react";
 
 export default async function Navbar() {
   const supabase = await createClient();
@@ -30,6 +31,7 @@ export default async function Navbar() {
             >
               {/* {loading && <Loader2 className="animate-spin" />}
           {loading ? "Keluar" : "Keluar"} */}
+              <LogOut />
               Keluar
             </Button>
           </form>

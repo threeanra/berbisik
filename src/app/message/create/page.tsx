@@ -1,8 +1,16 @@
 import { createClient } from "@/app/utils/supabase/server";
 import Container from "@/components/Container";
-import FormMessage from "@/components/FormMessage";
+import FormMessage from "@/app/message/create/components/FormMessage";
 import Navbar from "@/components/Navbar";
 import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
+import ButtonBack from "@/components/ButtonBack";
+import Footer from "@/components/Footer";
 
 export default async function Message() {
   const supabase = await createClient();
@@ -14,9 +22,23 @@ export default async function Message() {
   return (
     <Container>
       <Navbar />
-      <div className="h-screen flex justify-center items-center">
-        <FormMessage name={user?.user_metadata.full_name} />
+      <div className="lg:h-screen mt-32 mb-10 flex justify-center items-center flex-col gap-4">
+        <div className="w-full md:w-[600px]">
+          <ButtonBack customClassname="self-start" />
+        </div>
+        <Card className="w-full md:w-[600px]">
+          <CardHeader className="flex gap-2">
+            <CardDescription className="text-base self-end">
+              Halo,{" "}
+              <span className="italic">{user?.user_metadata.full_name}</span>
+            </CardDescription>
+            <CardContent className="p-0">
+              <FormMessage />
+            </CardContent>
+          </CardHeader>
+        </Card>
       </div>
+      <Footer />
     </Container>
   );
 }
