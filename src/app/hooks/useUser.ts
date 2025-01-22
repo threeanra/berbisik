@@ -1,5 +1,5 @@
+import { createClient } from "@/app/utils/supabase/client";
 import { useState, useEffect } from "react";
-import { createClient } from "../utils/supabase/client";
 
 interface IUser {
   full_name: string;

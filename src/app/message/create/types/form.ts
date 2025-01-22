@@ -5,10 +5,10 @@ export const formSchema = z.object({
   message: z
     .string()
     .min(1, {
-      message: "Isi pesanmu terlebih dahulu.",
+      message: "Isi pesanmu terlebih dahulu",
     })
     .max(200, {
-      message: "Pesan maksimal 200 karakter.",
+      message: "Pesan maksimal 200 karakter",
     }),
 });
 

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { FormMessagesSchema, formSchema } from "../types/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Info, Send } from "lucide-react";
+import { Info, Loader2, Send } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useMutation } from "@tanstack/react-query";
+import { postMessage } from "@/app/services/messageService";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/app/hooks/use-toast";
 
 export default function FormMessages() {
   const CHARACTER_LIMIT = 200;
+  const { toast } = useToast();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const form = useForm<FormMessagesSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,16 +46,54 @@ export default function FormMessages() {
 
   const { handleSubmit, control, reset } = form;
 
+  const { mutate: sendMessage, isPending } = useMutation({
+    mutationFn: async ({
+      name,
+      message,
+    }: {
+      name: string;
+      message: string;
+    }) => {
+      await postMessage({
+        name,
+        message,
+      });
+    },
+    onSuccess: () => {
+      toast({
+        description: "Pesanmu berhasil terkirim.",
+      });
+      reset();
+      form.setValue("name", "");
+      form.setValue("message", "");
+      setIsDialogOpen(false);
+    },
+    onError: () => {
+      setIsDialogOpen(false);
+    },
+  });
+
   const onSubmit = (values: FormMessagesSchema) => {
-    console.log(values);
-    reset();
-    form.setValue("name", "");
-    form.setValue("message", "");
+    sendMessage({
+      name: values.name.trim() || "anonim",
+      message: values.message,
+    });
+  };
+
+  const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setIsDialogOpen(true);
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 w-full">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={handleEnterKeyPress}
+        className="space-y-5 w-full"
+      >
         <FormField
           control={control}
           name="name"
@@ -82,16 +136,46 @@ export default function FormMessages() {
             <Info className="h-4 w-4" />
             <AlertTitle>Catatan</AlertTitle>
             <AlertDescription>
-              Gunakanlah dengan bijak tanpa unsur menghina, sara, maupun hal
-              yang merugikan orang lain.
+              Gunakan dengan bijak tanpa unsur menghina, sara, maupun hal yang
+              merugikan orang lain.
             </AlertDescription>
           </Alert>
         </div>
 
-        <Button type="submit">
-          <Send />
-          Kirim
-        </Button>
+        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <AlertDialogTrigger asChild>
+            <Button disabled={isPending}>
+              {isPending ? (
+                <>
+                  <Loader2 className="animate-spin" /> Tunggu
+                </>
+              ) : (
+                <>
+                  <Send /> Kirim
+                </>
+              )}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="w-11/12 rounded-lg md:w-full">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Konfirmasi</AlertDialogTitle>
+              <AlertDialogDescription>
+                Apakah kamu yakin ingin mengirim pesan ini?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Batal</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  handleSubmit(onSubmit)();
+                  setIsDialogOpen(false);
+                }}
+              >
+                Kirim
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </form>
     </Form>
   );

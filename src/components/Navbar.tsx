@@ -14,8 +14,8 @@ export default async function Navbar() {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="absolute top-0 left-0 right-0">
-      <div className="flex items-center justify-between py-6 border-b-[1px] px-5  lg:px-56">
+    <header className="fixed top-0 left-0 right-0 bg-white">
+      <div className="flex items-center justify-between py-6 border-b-[1px] px-5 lg:px-56">
         <Link href="/">
           <span className="text-2xl font-light">
             ber<span className="font-bold">bisik</span>.
@@ -39,6 +39,6 @@ export default async function Navbar() {
           <ButtonLogin />
         )}
       </div>
-    </div>
+    </header>
   );
 }
