@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 
 export default function FormMessages() {
-  const CHARACTER_LIMIT = 200;
+  const CHARACTER_LIMIT = 300;
   const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();

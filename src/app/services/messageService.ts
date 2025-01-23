@@ -11,6 +11,17 @@ export const getMessages = async () => {
   return data;
 };
 
+export const getMessageById = async (id: number) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("all_message")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error) throw error;
+  return data;
+};
+
 export const postMessage = async ({
   name,
   message,
