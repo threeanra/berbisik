@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,27 +14,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { FormMessagesSchema, formSchema } from "../types/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Info, Loader2, Send } from "lucide-react";
+import { Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useMutation } from "@tanstack/react-query";
 import { postMessage } from "@/app/services/messageService";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useToast } from "@/app/hooks/use-toast";
+import { ToastAction } from "@radix-ui/react-toast";
+import { useRouter } from "next/navigation";
+import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 
 export default function FormMessages() {
   const CHARACTER_LIMIT = 200;
-  const { toast } = useToast();
+  const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
   const form = useForm<FormMessagesSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,14 +46,25 @@ export default function FormMessages() {
       name: string;
       message: string;
     }) => {
-      await postMessage({
+      const data = await postMessage({
         name,
         message,
       });
+      return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
+        title: "Berhasil",
         description: "Pesanmu berhasil terkirim.",
+        action: (
+          <ToastAction
+            className="h-9 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90"
+            onClick={() => route.push(`/message/detail/${data[0].id}`)}
+            altText="Lihat"
+          >
+            Lihat
+          </ToastAction>
+        ),
       });
       reset();
       form.setValue("name", "");
@@ -80,7 +83,7 @@ export default function FormMessages() {
     });
   };
 
-  const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  const handleKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       setIsDialogOpen(true);
@@ -91,7 +94,7 @@ export default function FormMessages() {
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        onKeyDown={handleEnterKeyPress}
+        onKeyDown={handleKey}
         className="space-y-5 w-full"
       >
         <FormField
@@ -142,40 +145,14 @@ export default function FormMessages() {
           </Alert>
         </div>
 
-        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogTrigger asChild>
-            <Button disabled={isPending}>
-              {isPending ? (
-                <>
-                  <Loader2 className="animate-spin" /> Tunggu
-                </>
-              ) : (
-                <>
-                  <Send /> Kirim
-                </>
-              )}
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="w-11/12 rounded-lg md:w-full">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Konfirmasi</AlertDialogTitle>
-              <AlertDialogDescription>
-                Apakah kamu yakin ingin mengirim pesan ini?
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Batal</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => {
-                  handleSubmit(onSubmit)();
-                  setIsDialogOpen(false);
-                }}
-              >
-                Kirim
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <ConfirmationDialog
+          isOpen={isDialogOpen}
+          setIsOpen={setIsDialogOpen}
+          title="Konfirmasi"
+          description="Apakah kamu yakin ingin mengirim pesan ini?"
+          isPending={isPending}
+          onConfirm={handleSubmit(onSubmit)}
+        />
       </form>
     </Form>
   );

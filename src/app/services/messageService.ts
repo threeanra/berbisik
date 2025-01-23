@@ -20,10 +20,13 @@ export const postMessage = async ({
 }) => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.from("all_message").insert({
-    name,
-    message,
-  });
+  const { data, error } = await supabase
+    .from("all_message")
+    .insert({
+      name,
+      message,
+    })
+    .select("*");
   if (error) throw error;
   return data;
 };
