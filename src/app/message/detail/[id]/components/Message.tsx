@@ -27,14 +27,11 @@ export default function MessageDetail({ id }: { id: number }) {
   return (
     <>
       <div className="relative flex flex-col gap-24 text-center justify-center items-center w-11/12 md:w-10/12 lg:w-8/12">
-        <span className="relative text-2xl md:text-5xl italic font-thin px-5 2xl:p-2">
-          <Quote className=" absolute left-[-5px] top-[-5px] opacity-60" />
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-          obcaecati facilis doloribus quaerat omnis cupiditate aliquam aut!
-          Labore nobis, cum perferendis, exercitationem, dolorum voluptas unde
-          similique nulla est consequatur eum!
+        <span className="relative text-2xl md:text-4xl italic font-thin px-5 2xl:p-2">
+          <Quote className="absolute left-[-5px] md:left-[-10px] top-[-5px] opacity-60" />
+          {detailData?.message}
         </span>
-        <span className="text-xl md:text-3xl italic font-light">
+        <span className="text-xl md:text-2xl italic font-light">
           - {detailData?.name}
         </span>
       </div>

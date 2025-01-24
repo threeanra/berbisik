@@ -2,7 +2,6 @@ import Container from "@/components/Container";
 import Navbar from "@/components/Navbar";
 import React from "react";
 import MessageDetail from "./components/Message";
-import ButtonBack from "@/components/ButtonBack";
 import Footer from "@/components/Footer";
 
 export default function DetailMessagePage({

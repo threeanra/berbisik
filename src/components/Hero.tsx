@@ -5,11 +5,21 @@ import { Button } from "@/components/ui/button";
 import MessageCard from "@/components/MessageCard";
 import { useRouter } from "next/navigation";
 import { NotebookText, Pencil, UserSearch } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getLatestMessage } from "@/app/services/messageService";
+import { SkeletonCard } from "./SkeletonCard";
 export default function Hero() {
   const router = useRouter();
+  const { data: latestMessage, isLoading } = useQuery({
+    queryFn: async () => {
+      const data = await getLatestMessage();
+      return data;
+    },
+    queryKey: ["latestMessage"],
+  });
   return (
     <Container>
-      <section className="lg:h-screen mt-48 md:mt-30 lg:mt-7 2xl:mt-0 flex items-center justify-center flex-col gap-5 text-center">
+      <section className="lg:h-screen mt-48 md:mt-30 lg:mt-0 2xl:mt-0 flex items-center justify-center flex-col gap-5 text-center">
         <h1 className="text-3xl md:text-5xl 2xl:text-6xl font-light text-center">
           Ruang hening tempat aksara ber
           <span className="font-bold">bisik</span>
@@ -37,15 +47,30 @@ export default function Hero() {
           </Button>
         </div>
 
-        <div className="flex flex-wrap lg:flex-row justify-center mt-6 gap-5">
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
+        <div className="flex flex-wrap lg:flex-row justify-center mt-5 gap-5">
+          {isLoading ? (
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
+          ) : (
+            latestMessage?.map((data) => (
+              <MessageCard
+                key={data.id}
+                id={data.id}
+                message={data.message}
+                name={data.name}
+              />
+            ))
+          )}
         </div>
-        <Button variant={"outline"} className="my-2">
-          <NotebookText />
-          Lihat Pesan Lainnya
-        </Button>
+        {!isLoading && (
+          <Button variant={"outline"} className="my-2">
+            <NotebookText />
+            Lihat Pesan Lainnya
+          </Button>
+        )}
       </section>
     </Container>
   );
