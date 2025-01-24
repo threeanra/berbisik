@@ -42,7 +42,10 @@ export default function Hero() {
             <Pencil />
             Tulis pesanmu
           </Button>
-          <Button className="bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300">
+          <Button
+            className="bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300"
+            onClick={() => router.push("/message/search")}
+          >
             <UserSearch /> Pesan orang lain
           </Button>
         </div>
@@ -54,7 +57,7 @@ export default function Hero() {
               <SkeletonCard />
               <SkeletonCard />
             </>
-          ) : (
+          ) : latestMessage && latestMessage?.length > 0 ? (
             latestMessage?.map((data) => (
               <MessageCard
                 key={data.id}
@@ -63,10 +66,16 @@ export default function Hero() {
                 name={data.name}
               />
             ))
+          ) : (
+            <p>Tidak ada pesan</p>
           )}
         </div>
-        {!isLoading && (
-          <Button variant={"outline"} className="my-2">
+        {!isLoading && latestMessage && latestMessage?.length > 0 && (
+          <Button
+            variant={"outline"}
+            className="my-2"
+            onClick={() => router.push("/message/search")}
+          >
             <NotebookText />
             Lihat Pesan Lainnya
           </Button>

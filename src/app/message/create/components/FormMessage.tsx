@@ -16,7 +16,7 @@ import { FormMessagesSchema, formSchema } from "../types/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postMessage } from "@/app/services/messageService";
 import { useToast } from "@/app/hooks/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
@@ -25,6 +25,7 @@ import { ConfirmationDialog } from "@/components/ConfirmationDialog";
 
 export default function FormMessages() {
   const CHARACTER_LIMIT = 300;
+  const queryClient = useQueryClient();
   const route = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -70,6 +71,8 @@ export default function FormMessages() {
       form.setValue("name", "");
       form.setValue("message", "");
       setIsDialogOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["latestMessage"] });
+      queryClient.invalidateQueries({ queryKey: ["allMessages"] });
     },
     onError: () => {
       setIsDialogOpen(false);

@@ -26,7 +26,7 @@ export default async function Message() {
         <div className="w-full md:w-[600px]">
           <ButtonBack customClassname="self-start" />
         </div>
-        <Card className="w-full md:w-[600px]">
+        <Card className="w-full md:w-[600px] mb-10">
           <CardHeader className="flex gap-2">
             <CardDescription className="text-sm self-end">
               Halo,{" "}

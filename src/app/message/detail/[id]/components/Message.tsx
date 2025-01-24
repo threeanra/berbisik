@@ -14,6 +14,9 @@ export default function MessageDetail({ id }: { id: number }) {
     queryKey: ["messageDetail", id],
   });
 
+  const newName =
+    detailData?.name === "anonim" ? "tidak diketahui" : detailData?.name;
+
   if (isLoading) {
     return (
       <>
@@ -32,7 +35,7 @@ export default function MessageDetail({ id }: { id: number }) {
           {detailData?.message}
         </span>
         <span className="text-xl md:text-2xl italic font-light">
-          - {detailData?.name}
+          - {newName}
         </span>
       </div>
       <div className="absolute flex justify-center bottom-24 left-0 right-0">

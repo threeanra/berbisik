@@ -11,6 +11,7 @@ export default function MessageCard({
   name: string;
   message: string;
 }) {
+  const newName = name === "anonim" ? "tidak diketahui" : name;
   const router = useRouter();
   return (
     <div
@@ -22,7 +23,7 @@ export default function MessageCard({
           <div className="w-full h-[150px] overflow-hidden items-center flex justify-center">
             <span className="text-base line-clamp-6">{message}</span>
           </div>
-          <span className="self-end text-sm">- {name}</span>
+          <span className="self-end text-sm">- {newName}</span>
         </CardContent>
       </Card>
     </div>

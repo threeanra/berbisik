@@ -9,7 +9,6 @@ export default function DetailMessagePage({
 }: {
   params: { id: string };
 }) {
-  console.log(params.id);
   return (
     <Container>
       <Navbar />
