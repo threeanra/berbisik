@@ -6,6 +6,8 @@ export default function Container({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen flex flex-col px-5 lg:px-56">{children}</div>
+    <div className="relative z-10 min-h-screen flex flex-col px-5 lg:px-56">
+      {children}
+    </div>
   );
 }
