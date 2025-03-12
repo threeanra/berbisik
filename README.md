@@ -1,7 +1,7 @@
 ## Berbisik - Preview
 Berbisik is a platform designed as a space for unlimited expression, where everyone is free to write their
 messages, stories, or ideas without restrictions. This platform is here to support creativity, freedom of speech, and
-the courage to express oneself. No matter what the context, Whisper provides a space for anyone to express their
+the courage to express oneself. No matter what the context, Berbisik provides a space for anyone to express their
 thoughts, feelings, or ideas honestly and authentically, creating an inclusive, safe, and inspiring environment.
 </br>
 </br>
